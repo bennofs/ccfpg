@@ -1,0 +1,69 @@
+#+TITLE: Notes
+
+* Datasets
+** Linux kernel + Chromium: Deep Learning based Vulnerability Detection: Are We There Yet? (Chakraborty et al.)
+https://bit.ly/3bX30ai (reveal, 20k non-vuln funcs, 2k vuln funcs)
+** LAVA: NO, too synthetic
+** MAGMA: real CVEs forward-ported to current software, small
+https://hexhive.epfl.ch/magma/
+** SARD/Juliet
+https://samate.nist.gov/SARD/
+https://samate.nist.gov/SARD/view_testcase.php?tID=252126
+pretty synthetic?
+** Draper
+https://osf.io/d45bw/wiki/home/
+generated from static analyzer reports
+
+* Models
+** Devign
+** VulDeePecker
+** SySeVR (same authors as VulDeePecker)
+** Reveal
+
+* Drafts
+** Expose
+Eine vielversprechende Anwendung für Machine Learning auf Source Code ist die automatisierte Erkennung von Schwachstellen [1].
+Chakraborty et al. haben bereits gezeigt, dass Gated Graph Neural Networks ein gutes Modell für diese Aufgabe darstellen [4].
+In diesem Projekt soll dazu nun das von Hellendoorn et al. [2] beschriebene Modell erprobt werden.
+Um weitere Forschung auf dem Gebiet zu vereinfachen und eine bessere Vergleichbarkeit mit anderen Modellen herzustellen, wird dazu das compy-learn Framework verwendet [5].
+
+Es wurden bereits zahlreiche ML-Modelle für diese Anwendung vorgeschlagen, welche jedoch nach den Erkenntnissen von Chakraborty et al. schlecht auf nicht-synthetische Datensätze generalisieren.
+Gerade Deep-Learning Modelle sind sehr gut darin, eventuell synthetische Artefakte und Duplikate zwischen Trainungs- und Evaluationsdatensatz zu finden und auszunutzen.
+Deswegen liegt ein besondere Fokus auf der Auswahl eines Datensatzes für Training und Evaluation.
+
+Die Aufgaben des Forschungsprojekts sind damit:
+
+(1) Review der existierenden Datensätze für automatische Schwachstellendetektion
+(2) Anwendung des Modells von Hellendoorn et al. zur Schwachstellendetektion
+(3) Integration des Modells und Evaluation im Rahmen von compy-learn
+
+### References
+
+- [1] [G. Ye et al., “Deep Program Structure Modeling Through Multi-Relational Graph-based Learning,” in Proceedings of the ACM International Conference on Parallel Architectures and Compilation Techniques, Virtual Event GA USA, Sep. 2020, pp. 111–123](https://doi.org/10/ghgb4p).
+- [2] [Hellendoorn, Vincent J., et al. "Global relational models of source code." International Conference on Learning Representations. 2019.](https://github.com/vhellendoorn/iclr20-great)
+- [3] [Li, Yujia, et al. "Gated Graph Sequence Neural Networks." (2015).](https://www.microsoft.com/en-us/research/publication/gated-graph-sequence-neural-networks/)
+- [4] [Chakraborty, S., Krishna, R., Ding, Y., & Ray, B. (2020). Deep Learning based Vulnerability Detection: Are We There Yet?](http://arxiv.org/abs/2009.07235)
+- [5] A. Brauckmann, A. Goens, and J. Castrillon, “ComPy-Learn: A Toolbox for Exploring Machine Learning Representations for Compilers,” Kiel, Germany, Sep. 2020.
+
+* Literature
+** DONE Deep Program Structure Modeling Through Multi-Relational Graph-based Learning :graph:ast:cdfg:
+*** gnn on multiple graphs, for different "relations" (like dataflow, serveral ast-derived ones and control flow)
+*** question: wasn't this done before already? (ref: allamanis)
+**** yes, Learning to Represent Programs With Graphs, but they used simple linear functions
+**** this paper uses trainable MLP for aggregation/propagation functions, so slightly different model
+*** question: do they really completely discard variable and function names?
+*** pretty good results on vuln classification (90% accuracy, <10% FP/FN)
+** DONE Modeling and Discovering Vulnerabilities with Code Property Graphs
+*** key points: good results (18 previously unknown vulnerabilities), formalism for vuln patterns
+*** related work
+**** [1] Book Compilers Principles, Techniques, and Tools (Aho et al), for code representations
+**** small section about query languages for vuln discovery
+**** small part about program representations (combined c graph)
+** DONE Learning to map source code to software vulnerability using code as a graph :graph:ast:cdfg:
+*** results
+**** performace drops to 0.5 F1 score on real world dataset
+*** hypothesis: GNN model just good at detecting synthetic dataset generator
+** DONE Deep Learning based Vulnerability Detection: Are We There Yet? :nice:
+*** present a new dataset
+*** results
+**** ~70% performance drop on real world dataset ()
